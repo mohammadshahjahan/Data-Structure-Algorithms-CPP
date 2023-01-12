@@ -1,0 +1,21 @@
+queue is an ordered collection of items 
+FIFO
+front ,rear 
+
+insertion :- enqueue{
+    check overflow then
+    (0) exit(1)
+    (1) inrement to rear q.item[q.rear]=x
+}
+deletion :- dequeue{
+    check underflow then
+    (0) exit(1)
+    (1) q.front++
+}
+/*****************************************************************/
+priority queue(implemented by):-
+1. array
+2. linked list
+3. heap
+lower the number higher the priority 
+/*****************************************************************/
