@@ -18,7 +18,7 @@ signed main(){
         v[index]+=val;
     }
     for(int i=0;i<v.size();i++){
-        if(i%3==0)cout<<endl;
+        if(i%3==0 && i!=0)cout<<endl;
         cout<<v[i]<<" ";
     }
     return 0;
