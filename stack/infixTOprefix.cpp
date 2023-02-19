@@ -1,85 +1,54 @@
-#include <iostream>
-#include <stack>
-#include <algorithm>
-#include <vector>
+// Online C++ compiler to run C++ program online
+#include <bits/stdc++.h>
 using namespace std;
-bool prcd(char a, char b)
+int prcd(char c)
 {
-    if (a == '(' || b=='(')
-        return false;
-    else if (b == ')')
-        return true;
+    if (c == '^')
+        return 3;
+    else if (c == '/' || c == '*')
+        return 2;
+    else if (c == '+' || c == '-')
+        return 1;
     else
-    {
-
-        if (a == '^' || a == '*' || a == '/' || a == '%')
-        {
-            if (b == '^')
-                return false;
-            else
-                return true;
-        }
-        else
-        {
-            if (b == '+' || b == '-')
-                return true;
-            else
-                return false;
-        }
-    }
+        return -1;
 }
-void InfixToPreFix(vector<char>s)
-{
-    int i = 0, p = 0;
-    stack<char> st;
-    vector<char> Prefix;
-    while (s[i] != '\0')
-    {
-        char symb = s[i];
+vector<char>inf(string s,int n){
+    stack<char>st;
+    int i=0;
+    vector<char>a;
+    while(i<n){
+        char c = s[i];
         i++;
-        if (!(symb == '+' || symb == '-' || symb == '*' || symb == '/' || symb == '%' || symb == '^' || symb == '(' || symb == ')'))
-        {
-            Prefix.push_back(symb);
-            p++;
+        if(!(c=='^'||c=='%'||c=='*'||c=='/'||c=='-'||c=='+'||c=='('||c==')')){
+            a.push_back(c);
         }
-        else
-        {
-            while (!st.empty() && !prcd(symb,st.top()))
-            {
-                char x = st.top();
-                Prefix.push_back(x);
-                p++;
-                st.pop();
+        else if(c==')'){
+            st.push(')');
+        }
+        else if(c=='('){
+            while(st.top()!=')'){
+                a.push_back(st.top());st.pop();
             }
-            if (symb == ')' && st.top() == '(')
-            {
-                st.pop();
+            st.pop();
+        }
+        else{
+            while(!st.empty()&&(prcd(c)<=prcd(st.top()))){
+                a.push_back(st.top());st.pop();
             }
-            else
-                st.push(symb);
+            st.push(c);
         }
     }
-    while (!st.empty())
-    {
-        char x = st.top();
-        Prefix.push_back(x);
-        p++;
-        st.pop();
-    }
-    reverse(Prefix.begin(),Prefix.end());
-    for (int i = 0; i < Prefix.size(); i++)
-    {
-        cout << Prefix[i] <<" ";
-    }
+    while(!st.empty()){
+                a.push_back(st.top());st.pop();
+            }
+            return a;
+    
 }
-int main()
-{
+int main() {
     int n;cin>>n;
-    vector<char>s;
-    for (int i=0;i<n;i++){
-        char c;cin>>c;s.push_back(c);
-    }
+    string s;cin>>s;
     reverse(s.begin(),s.end());
-    InfixToPreFix(s);
+    vector<char>ans = inf(s,n);
+    for(int i=ans.size()-1;i>=0;i--)cout<<ans[i];
     return 0;
 }
